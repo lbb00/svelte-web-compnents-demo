@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="app">
+      <custom-button :loading="loading" @tap="onTap">Start</custom-button>
+    </div>
+  </body>
+  <script src="./dist/button.umd.cjs"></script>
+  <script type="module">
+    import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+      setup() {
+        const loading = ref(false)
+
+        function onTap(e) {
+          loading.value = true
+          setTimeout(() => {
+            loading.value = false
+          }, 2000)
+        }
+
+        return {
+          loading,
+          onTap,
+        }
+      },
+    }).mount('#app')
+  </script>
+</html>

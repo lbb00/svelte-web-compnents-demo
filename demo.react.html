@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <div id="app"></div>
+  <body>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./dist/button.umd.cjs"></script>
+    <script type="text/babel">
+      const Demo = () => {
+        // loading 不能设置为 false，因为会作为字符串’false'传递给组件
+        const [loading, setLoading] = React.useState('')
+
+        const ref = React.useRef()
+
+        React.useLayoutEffect(() => {
+          const onTap = (e) => {
+            setLoading(true)
+            setTimeout(() => {
+              setLoading('')
+            }, 2000)
+          }
+
+          const { current } = ref
+          current.addEventListener('tap', onTap)
+          return () => {
+            current.removeEventListener('tap', onTap)
+          }
+        }, [ref])
+
+        return (
+          <custom-button loading={loading} ref={ref}>
+            Start
+          </custom-button>
+        )
+      }
+      const container = document.getElementById('app')
+      const root = ReactDOM.createRoot(container)
+      root.render(<Demo />)
+    </script>
+  </body>
+</html>
